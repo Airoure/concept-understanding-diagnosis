@@ -21,8 +21,9 @@ Use this skill to turn a concept-learning request into an interactive diagnosis 
    - If the gap is small, fill it with a brief explanation and one realistic example.
    - If the gap needs study, recommend a minimal reading/practice set before asking more questions.
 8. Ask the user to restate, apply, or troubleshoot a small example after they study or after the brief explanation.
-9. Update the learning record as the user improves. Move items from `Missing` to `Unstable`, and from `Unstable` to `Solid` only after the user succeeds on an application or troubleshooting task.
-10. Iterate until the user can explain and use the concept at the intended depth.
+9. Create or update the durable learning record after the first diagnosis round, following the persistence rules below.
+10. Update the learning record as the user improves. Move items from `Missing` to `Unstable`, and from `Unstable` to `Solid` only after the user succeeds on an application or troubleshooting task.
+11. Iterate until the user can explain and use the concept at the intended depth.
 
 ## Diagnostic Question Types
 
@@ -88,6 +89,38 @@ Next fill order:
 ```
 
 Use the user's language. If the user writes in Chinese, respond in Chinese.
+
+## Persistence Rules
+
+Treat diagnosis records as durable by default when the user invokes this skill to learn, test, check, or diagnose a concept. Do not wait for a separate "record this" request.
+
+After the first diagnosis round:
+
+1. If a known Obsidian vault or matching concept topic folder exists, create or update the diagnosis note there.
+2. If no durable location is known, create a Markdown diagnosis record in the current workspace, or ask for the target location when writing to the wrong place would be risky.
+3. If filesystem permission is required, request permission proactively and explain that the skill is trying to persist the learning record.
+4. Continue updating the same diagnosis note after each verification task.
+5. Keep one diagnosis note per concept or sub-concept. Do not bury the record in a broad overview note.
+
+Default note names:
+
+- Chinese concept: `<概念> 理解诊断.md`
+- English concept: `<Concept> diagnosis.md`
+
+Default Obsidian placement:
+
+- If a matching topic package exists, write the diagnosis note into that package root.
+- If no package exists and the user is using Obsidian, create or propose this structure:
+
+```text
+<Topic>/
+- overview.md
+- diagnosis.md
+- question-map.md
+- atomic-notes/
+- practice-records/
+- resources/
+```
 
 ## Learning Record Format
 
