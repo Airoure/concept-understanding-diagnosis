@@ -12,18 +12,20 @@ Use this skill to turn a concept-learning request into an interactive diagnosis 
 ## Core Workflow
 
 1. Ask for the target concept if the user has not named one.
-2. Ask 3-6 diagnostic questions before explaining. Prefer questions that reveal mental models, real use, boundaries, and failure cases.
-3. Wait for the user's answers. Do not grade an empty response.
-4. Diagnose the answer using the understanding levels below.
-5. Name the strongest parts first, then the gaps.
-6. Produce a compact learning record with `Solid`, `Unstable`, `Missing`, `Possible confusion`, and `Next`.
-7. For each important `Missing` or `Unstable` item, choose one of two moves:
+2. Before asking new diagnostic questions, look for an existing diagnosis record for this concept using the retrieval rules below.
+3. If a record exists, summarize the saved level, `Solid`, `Unstable`, `Missing`, and `Next check`, then continue from the saved next check instead of restarting from first principles.
+4. If no record exists, ask 3-6 diagnostic questions before explaining. Prefer questions that reveal mental models, real use, boundaries, and failure cases.
+5. Wait for the user's answers. Do not grade an empty response.
+6. Diagnose the answer using the understanding levels below.
+7. Name the strongest parts first, then the gaps.
+8. Produce a compact learning record with `Solid`, `Unstable`, `Missing`, `Possible confusion`, and `Next`.
+9. For each important `Missing` or `Unstable` item, choose one of two moves:
    - If the gap is small, fill it with a brief explanation and one realistic example.
    - If the gap needs study, recommend a minimal reading/practice set before asking more questions.
-8. Ask the user to restate, apply, or troubleshoot a small example after they study or after the brief explanation.
-9. Create or update the durable learning record after the first diagnosis round, following the persistence rules below.
-10. Update the learning record as the user improves. Move items from `Missing` to `Unstable`, and from `Unstable` to `Solid` only after the user succeeds on an application or troubleshooting task.
-11. Iterate until the user can explain and use the concept at the intended depth.
+10. Ask the user to restate, apply, or troubleshoot a small example after they study or after the brief explanation.
+11. Create or update the durable learning record after the first diagnosis round, following the persistence rules below.
+12. Update the learning record as the user improves. Move items from `Missing` to `Unstable`, and from `Unstable` to `Solid` only after the user succeeds on an application or troubleshooting task.
+13. Iterate until the user can explain and use the concept at the intended depth.
 
 ## Diagnostic Question Types
 
@@ -89,6 +91,34 @@ Next fill order:
 ```
 
 Use the user's language. If the user writes in Chinese, respond in Chinese.
+
+## Retrieval Rules
+
+When the user asks to learn, continue, review, test, or diagnose a concept, search for an existing diagnosis record before starting a new diagnosis.
+
+Search order:
+
+1. Known Obsidian vault topic package for the concept.
+2. Known learning-record directories from prior context.
+3. Current workspace Markdown files.
+4. If the likely location is known but outside writable or readable scope, request permission or ask for the location.
+
+Use filenames and headings such as:
+
+- `<Concept> diagnosis.md`
+- `<概念> 理解诊断.md`
+- `diagnosis.md`
+- headings containing `<Concept> diagnosis`, `Current level`, `Solid`, `Unstable`, `Missing`, or `Next check`
+
+If a record is found:
+
+1. Treat it as the current learning state, not as historical trivia.
+2. Do not ask the full starter question set again unless the record is stale, empty, or clearly mismatched.
+3. Resume from `Next check`, `Next practice`, or the highest-priority `Missing`/`Unstable` item.
+4. State briefly that an existing record was found and name the file being continued.
+5. After the user's next answer, update the same file rather than creating a duplicate record.
+
+If multiple plausible records exist, choose the most specific matching concept record. If ambiguity would affect the learning path, ask the user which one to continue.
 
 ## Persistence Rules
 
