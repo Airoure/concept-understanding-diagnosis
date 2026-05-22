@@ -1,0 +1,4 @@
+interface:
+  display_name: "Concept Understanding Diagnosis"
+  short_description: "Diagnose, record, and close concept gaps."
+  default_prompt: "Use $concept-understanding-diagnosis to check my understanding of a concept, record Solid/Unstable/Missing gaps, and recommend targeted study before explaining too much."
